@@ -1,0 +1,465 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{a4paper}
+\usepackage[backend=biber, style=authoryear, citestyle=authoryear]{biblatex}
+\addbibresource{references.bib}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{\fill} 
+{\Large Narek Khachikyan, Melik Tigranyan, Areg Hovakimyan}\\[0.5cm]
+{\large ENGS 211: Numerical Methods}\\[0.5cm]
+{\Large \textbf{Monte Carlo Method for Option Pricing}}\\[0.5cm]
+{\large Professor- Michael Poghosyan}
+\vspace*{\fill}
+\end{titlepage}
+
+
+\newpage
+\tableofcontents 
+\newpage
+
+
+
+\section*{Outline} 
+
+\begin{itemize}
+    \item Introduction
+    \item Definition of the Monte Carlo Method
+    \item Origin and Invention of the Monte Carlo Method
+        \begin{itemize}
+            \item Key Figures
+            \item Development and Naming
+        \end{itemize}
+    \item Monte Carlo Method: Mathematical Foundations
+        \begin{itemize}
+            \item Probability Theory
+            \item Statistics
+            \item Calculus
+            \item Linear Algebra
+            \item Stochastic Processes
+            \item Numerical Methods
+        \end{itemize}
+    \item Practical Applications
+    
+    \item Introduction to Option Pricing
+        \begin{itemize}
+            \item Definition and Significance of Financial Options
+            \item Overview of Basic Option Pricing Models and Their Applications
+            \item Key Terms in Option Pricing
+        \end{itemize}
+    \item Overview of the Black-Scholes Model and Comparison with Monte Carlo Methods
+    \item Introduction to the Black-Scholes Model
+    \item Key Assumptions of the Black-Scholes Model
+    \item Black-Scholes Formulas
+        \begin{itemize}
+            \item European Call Option
+            \item European Put Option
+        \end{itemize}
+    \item Comparison with Monte Carlo Methods
+    \item The Role of Brownian Motion in Monte Carlo Method for Option Pricing
+        \begin{itemize}
+            \item Modeling Stock Price Dynamics
+            \item Simulating Price Paths
+            \item Calculating Option Prices
+        \end{itemize}
+    \item Application of Monte Carlo Methods to Different Types of Options
+        \begin{itemize}
+            \item European Options
+            \item American Options
+            \item Asian Options
+        \end{itemize}
+    \item Monte Carlo Method in Practice
+        \begin{itemize}
+            \item Option Pricing Analysis 
+        \end{itemize}
+    \item Control variates technique
+        \begin{itemize}
+            \item Simulation of Payoffs
+            \item Use of Black-Scholes as a Control
+            \item Variance Reduction
+        \end{itemize}
+    
+    \item Conclusion
+    \item References
+\end{itemize}
+
+\newpage
+
+\section{Definition of the Monte Carlo Method}
+The Monte Carlo method is a statistical technique that utilizes random sampling to approximate solutions to quantitative problems. By performing simulations many times over, each using random inputs, the method estimates the probabilities of different outcomes in processes that are too complex to predict precisely. It is widely used in fields requiring modeling of uncertainty and risk, including physics, finance, engineering, and statistics.
+
+\section{Origin and Invention of the Monte Carlo Method}
+The development of the Monte Carlo method is an intriguing blend of scientific innovation and practical application during a pivotal moment in history. Its roots can be traced back to the 1940s, specifically within the context of the Manhattan Project—the U.S. government's research project during World War II aimed at developing nuclear weapons.
+
+\vspace{1em}
+\textbf{Key Figures:}
+\vspace{1em}
+
+\textbf{Stanislaw Ulam:} The inception of what we now call the Monte Carlo method occurred when mathematician Stanislaw Ulam was recovering from an illness and playing solitaire. Ulam pondered the chances of succeeding in a particular solitaire game, realizing that it would be more practical to simulate the game with random numbers to determine the probability of winning, rather than attempting to solve the complex combinatorial problem directly through deterministic calculations. This idea of using randomness to solve problems was the conceptual birth of the Monte Carlo method.
+
+\textbf{John von Neumann:} Ulam discussed his idea with John von Neumann, a fellow mathematician and physicist. Von Neumann immediately recognized the potential of this approach and helped Ulam develop it into a more formal method. Von Neumann, known for his work in computer science, was instrumental in programming the early computers to carry out Monte Carlo simulations.
+
+\textbf{Development and Naming:}
+- The method was further developed and named while Ulam and von Neumann were working at the Los Alamos National Laboratory. The name "Monte Carlo" was coined by Nicholas Metropolis, another key figure in the project, in reference to the Monte Carlo Casino in Monaco. Metropolis suggested the name because the method relied on chance and randomness, akin to gambling.
+
+- \textbf{First Applications:} The first applications of the Monte Carlo method were in the physics of neutron diffusion—a critical part of the research on nuclear weapons. The method provided a way to model complex physical interactions that were analytically intractable at the time.
+
+\newpage
+\section{Monte Carlo Method: Mathematical Foundations}
+
+\subsection*{1. Probability Theory}
+\textbf{Usage:} Fundamental for designing Monte Carlo simulations, where random variables based on probability distributions are used to model uncertainties.\\
+\textbf{Key Formula:} Probability mass function (PMF) for discrete distributions: \( P(X = x) = p(x) \), and probability density function (PDF) for continuous distributions: \( P(a \leq X \leq b) = \int_a^b f(x) \, dx \).
+
+\subsection*{2. Statistics}
+\textbf{Usage:} Used to analyze results from Monte Carlo simulations, including parameter estimation and result reliability.\\
+\textbf{Key Formula:} Sample mean (estimator for expected value): \( \bar{X} = \frac{1}{n} \sum_{i=1}^n X_i \).
+
+\subsection*{3. Calculus}
+\textbf{Usage:} Used to solve problems involving areas under curves, essential for determining probabilities and expectations in continuous settings.\\
+\textbf{Key Formula:} Expected value of a function \( g(X) \), where \( X \) is a continuous random variable: \( E[g(X)] = \int_{-\infty}^\infty g(x)f(x)dx \).
+
+\subsection*{4. Linear Algebra}
+\textbf{Usage:} Handles multi-dimensional data sets and matrix operations in stochastic models.\\
+\textbf{Key Formula:} Matrix multiplication: \( (AB)_{ij} = \sum_k A_{ik} B_{kj} \).
+
+\subsection*{5. Stochastic Processes}
+\textbf{Usage:} Models random phenomena evolving over time in simulations, such as stock prices.\\
+\textbf{Key Formula:} Stochastic differential equation: \( dX_t = \mu(X_t, t) \, dt + \sigma(X_t, t) \, dW_t \), where \( W_t \) is Brownian motion.
+
+\subsection*{6. Numerical Methods}
+\textbf{Usage:} Fundamental for generating random numbers and solving equations numerically.\\
+\textbf{Key Formula:} Error estimation in numerical integration: \( \text{Error} \approx \frac{\sigma}{\sqrt{n}} \), where \( \sigma \) is the standard deviation of the samples and \( n \) is the number of samples.
+
+
+
+\subsection*{Practical Applications}
+\textbf{Usage:} Applies theories in real-world scenarios to predict outcomes and evaluate risks.\\
+\textbf{Key Conceptual Understanding:} Law of Large Numbers: \( \bar{X_n} \to E(X) \) as \( n \to \infty \), validating simulation convergence.
+
+
+
+\newpage
+
+\section{Introduction to Option Pricing}
+
+\subsection*{Definition and Significance of Financial Options}
+Financial options are derivatives that provide the holder the right, but not the obligation, to buy or sell an underlying asset at a predetermined price before or at a specific expiration date. There are two primary types of options:
+
+\begin{itemize}
+    \item \textbf{Call Options:} Give the holder the right to buy the underlying asset, until the expiration date.
+    \item \textbf{Put Options:} Give the holder the right to sell the underlying asset, until the expiration date.
+\end{itemize}
+
+Options are significant in financial markets for several reasons:
+\begin{itemize}
+    \item They offer \textbf{risk management} tools, allowing investors to hedge against price movements in the underlying assets.
+    \item They provide \textbf{speculative opportunities}, enabling traders to profit from predictions about future price movements without necessarily owning the underlying assets.
+    \item Options can enhance \textbf{portfolio returns} by generating income through various options strategies, such as selling covered calls.
+\end{itemize}
+
+\subsection*{Overview of Basic Option Pricing Models and Their Applications}
+Option pricing models are mathematical models used to determine the fair value of options, taking into account various factors like the price of the underlying asset, strike price, volatility, time to expiration, and the risk-free rate.
+
+\subsection{Key Terms in Option Pricing}
+\subsection*{Volatility}
+Volatility refers to the degree of variation of a trading price series over time as measured by the standard deviation of logarithmic returns. High volatility means that a security's price can change dramatically over a short time period in either direction.
+
+\subsection*{Expiration Date and Maturity}
+The expiration date of an option is the last date on which the option can be exercised. The term "maturity" refers to the same concept and is often used interchangeably in the context of options.
+
+\subsection*{Risk-Free Rate}
+The risk-free rate is the theoretical rate of return of an investment with zero risk. It represents the interest an investor would expect from an absolutely risk-free investment over a specific period of time.
+
+\subsection*{Strike Price}
+The strike price (or exercise price) is the price at which the holder of an option can buy (in the case of a call option) or sell (in the case of a put option) the underlying asset.
+
+\subsection*{Underlying Asset}
+The underlying asset is the financial instrument (e.g., stock, bond, commodity) on which a derivative's price is based. In the case of an option, the underlying asset is the security that the option seller agrees to deliver to or purchase from the option holder if the option is exercised.
+
+\subsection*{Contract}
+In the context of options, a contract represents the specific terms and conditions agreed upon by the buyer and seller of the option. It details the rights and obligations of each party concerning the option transaction.
+
+\subsection*{Share}
+A share represents a unit of ownership in a company or a financial asset. In the context of options, shares are the underlying assets that can be bought or sold if the option is exercised.
+
+\subsection*{Conclusion}
+Understanding these key terms is essential for anyone involved in trading or investing in options. They form the basis of the mechanisms that drive option pricing and trading strategies in financial markets.
+
+\newpage
+\section{Black-Scholes Model}
+The Black-Scholes model, developed by Fischer Black, Myron Scholes, and Robert Merton in 1973, is a seminal framework for pricing European-style options. It simplifies the complex financial market dynamics into a formula that calculates the theoretical price of vanilla call and put options.
+
+\subsection*{Key Assumptions of the Black-Scholes Model}
+The Black-Scholes model relies on several simplifying assumptions to facilitate a closed-form solution:
+\begin{itemize}
+    \item The stock price follows a geometric Brownian motion with constant volatility.
+    \item The risk-free interest rate is constant.
+    \item The market operates without frictions: no transaction costs, taxes, or arbitrage.
+    \item The underlying asset does not pay dividends.
+    \item The options can only be exercised at expiration (European options).
+\end{itemize}
+
+\subsection*{Black-Scholes Formulas}
+The Black-Scholes formula for the price of a European call option (C) and a European put option (P) on a non-dividend-paying stock is as follows:
+
+\subsection{European Call Option}
+\[ C(S, t) = S N(d_1) - K e^{-rT} N(d_2) \]
+where:
+\[ d_1 = \frac{\log(S / K) + (r + \sigma^2 / 2) T}{\sigma \sqrt{T}}, \]
+\[ d_2 = d_1 - \sigma \sqrt{T}, \]
+\( S \) is the current stock price, \( K \) is the strike price, \( r \) is the risk-free rate, \( T \) is the time to expiration, \( \sigma \) is the volatility of the stock, and \( N(\cdot) \) represents the cumulative distribution function of the standard normal distribution.
+
+\subsection{European Put Option}
+\[ P(S, t) = K e^{-rT} N(-d_2) - S N(-d_1) \]
+
+\subsection*{Comparison with Monte Carlo Methods}
+While the Black-Scholes model is elegantly simple, it has limitations in handling options that are American-style, path-dependent, or involve complex payoffs. Here's how it compares with Monte Carlo methods:
+
+\begin{itemize}
+    \item \textbf{Flexibility:} Monte Carlo methods are not limited by the assumptions of the Black-Scholes model and can handle a wider variety of financial instruments and conditions.
+    \item \textbf{Applicability:} Monte Carlo simulations can price American, exotic, and path-dependent options which are beyond the scope of the Black-Scholes model.
+    \item \textbf{Computational Intensity:} Monte Carlo methods require extensive computational resources, especially as the complexity of the financial instrument increases.
+\end{itemize}
+
+\subsection*{Conclusion}
+The Black-Scholes model provides an essential theoretical tool for the valuation of European options under simplified market conditions. However, for more complex derivatives or those involving early exercise features and random paths, Monte Carlo methods offer a more robust and flexible approach, albeit at a greater computational cost.
+
+\newpage
+\section{The Role of Brownian Motion in Monte Carlo Method for Option Pricing}
+
+\subsection*{Introduction}
+Brownian motion, or the Wiener process, is fundamentally connected to the Monte Carlo method for option pricing through its role in modeling the stochastic behavior of asset prices. This connection is crucial for simulating the random paths that asset prices might take over time, which is at the core of the Monte Carlo simulation technique.
+
+\subsection{Modeling Stock Price Dynamics}
+The most common model for stock price dynamics in finance is the Geometric Brownian Motion (GBM), which is a continuous-time stochastic process. GBM is defined by the following stochastic differential equation (SDE):
+
+\[ dS_t = \mu S_t \, dt + \sigma S_t \, dW_t, \]
+
+where:
+\begin{itemize}
+    \item \( S_t \) represents the stock price at time \( t \),
+    \item \( \mu \) is the expected return (drift coefficient),
+    \item \( \sigma \) is the volatility (diffusion coefficient),
+    \item \( dW_t \) denotes the increment of a Wiener process, representing the random shock to the prices.
+\end{itemize}
+
+\subsection{Simulating Price Paths}
+Monte Carlo methods use the GBM model to simulate numerous possible future paths for the stock price. Each simulation involves generating a sequence of random shocks (\( dW_t \)) from a normal distribution, which are then used to compute the corresponding stock price movements over discrete time intervals. The discretization of the SDE is often done using the Euler-Maruyama method:
+
+\[ S_{t+\Delta t} = S_t + \mu S_t \Delta t + \sigma S_t \sqrt{\Delta t} Z, \]
+
+where \( Z \) is a standard normal random variable. These discrete steps approximate the continuous paths that the stock price might take according to the principles of Brownian motion.
+
+\subsection{Calculating Option Prices}
+Once the stock price paths are simulated, the next step in Monte Carlo simulation is to calculate the payoff for each path at the expiration date of the option. For a European call option, this would be \( \max(S_T - K, 0) \) for each path, where \( S_T \) is the simulated stock price at maturity \( T \), and \( K \) is the strike price. The Monte Carlo estimate of the option price is then obtained by averaging these payoffs and discounting them back to the present value using the risk-free rate:
+
+\[ C_0 = e^{-rT} \frac{1}{N} \sum_{i=1}^N \max(S_T^i - K, 0), \]
+
+where \( N \) is the number of simulated paths, and \( r \) is the risk-free rate.
+
+\subsection*{Conclusion}
+In summary, Brownian motion is integral to the Monte Carlo method for option pricing as it provides the mathematical foundation for simulating the random paths of stock prices. This stochastic modeling is essential for capturing the inherent uncertainty and dynamics of financial markets, enabling analysts to estimate the probabilistic distribution of future asset prices and hence the values of derivatives based on these assets.
+
+\newpage
+
+\section{Application of Monte Carlo Methods to Different Types of Options}
+
+
+\subsection*{Introduction}
+When discussing the application of Monte Carlo methods to different types of options, it's important to understand how the method is adapted for the nuances of each option type—European, American, and Asian options.
+
+\subsection*{Types of Options and Monte Carlo Applications}
+
+\subsection{European Options}
+\textbf{Characteristics:} European options can only be exercised at the expiration date.\\
+\textbf{Monte Carlo Application:} The Monte Carlo method is relatively straightforward for European options. It involves simulating many possible future paths for the underlying asset's price using stochastic processes like Geometric Brownian Motion. The final payoff is calculated for each path based on the option's strike price at maturity, and these payoffs are then averaged and discounted back to the present using the risk-free rate. This provides an estimate of the option's current fair value.
+
+\subsection{American Options}
+\textbf{Characteristics:} American options can be exercised at any time up to and including the expiration date, adding complexity to their pricing.\\
+\textbf{Monte Carlo Application:} For American options, the Monte Carlo method needs to be modified to handle the option's early exercise feature. This is typically done using least-squares Monte Carlo simulation. In this approach, a simulation is performed to generate potential future asset prices. At each simulated time step, an optimal stopping rule based on regression techniques decides whether the option should be exercised (based on the intrinsic value) or held (based on the value of continuing). This method helps approximate the option's price by considering the additional flexibility of early exercise.
+
+\subsection{Asian Options}
+\textbf{Characteristics:} Asian options' payoff depends on the average price of the underlying asset over a certain period, rather than the price at a single point in time.\\
+\textbf{Monte Carlo Application:} Pricing Asian options with Monte Carlo methods involves simulating many scenarios of the underlying asset's price path and calculating the average price for each simulated path over the option's life. The payoff is then determined based on this average price, and like European options, these payoffs are averaged and discounted to present value. The averaging feature of Asian options provides a smoothing effect that often results in less pricing volatility compared to standard options.
+
+\newpage
+\section{Monte Carlo Method in Practice}
+
+\textbf{We decided to go ahead and try Monte Carlo method on Apple historical data for the last year which we downloaded from Yahoo finance, data showed observations for 252 trading days and has the following variables Date	Open	High	Low	Close	Adj Close	Volume.}
+
+\noindent
+\includegraphics[width=\linewidth]{AAPL.png}
+
+\begin{itemize}
+  \item \textbf{Date:} This column represents the specific day on which the data was recorded. For stock market data, this is typically only the days when the stock market is open (Monday through Friday, excluding holidays).
+  \item \textbf{Open:} This is the price of the stock at the beginning of the trading day. It's the first price at which a stock is traded when the exchange opens in the morning.
+  \item \textbf{High:} This is the highest price at which the stock traded during the trading day. It indicates the peak price level that the stock reached during the day.
+  \item \textbf{Low:} This is the lowest price at which the stock traded during the trading day. It shows the minimum price level the stock dropped to during the day.
+  \item \textbf{Close:} This is the price of the stock at the end of the trading day. It's the last price at which the stock is traded before the market closes.
+  \item \textbf{Adj Close:} The "Adjusted Close" is the closing price after adjustments for all applicable splits and dividend distributions. This is very important for analysis over long periods because it gives a more accurate reflection of the stock's value by incorporating these financial changes.
+  \item \textbf{Volume:} This number indicates how many shares of the stock were traded during the day. High volume typically indicates that there is a high level of interest in the stock, and it can also mean more liquidity, which makes it easier to buy or sell the stock.
+\end{itemize}
+
+\textbf{We computed the daily volatility after becoming acquainted with the data, and we then multiplied that figure by number of trading days to obtain the yearly volatility. We had to set strike value, risk-free rate, and time to expiration values before we could use Monte Carlo techniques. We chose to set the striking price to the stock's current value, assign a one-year expiration date, a 0.1 risk-free rate, and 10,000 repetitions.}
+
+\noindent
+\includegraphics[width=\linewidth]{Volatility.png}
+
+
+
+\textbf{The method used 10.0000 simulations of possible stock price starting at current price, after that call and put option prices where estimated which where 16.094426870067373, 13.92511997770731 respectively.
+
+}
+
+\textbf{Below you can see the visualization of different sample paths starting at the current stock value.
+
+}
+
+\noindent
+\includegraphics[width=\linewidth]{NM1.png}
+
+\noindent
+\includegraphics[width=\linewidth]{NM2.png}
+
+
+\textbf{Now let us look what these numbers will mean at the end of the option period lets look at two different scenarios of what the value will be based on two different possible values of stock:}
+
+
+\vspace{1em} 
+\noindent
+\textbf{Call Option Price:} \$16.09 \\
+\textbf{Put Option Price:} \$13.93 \\
+\vspace{1em} 
+
+\textbf{Scenario 1: Stock Price Ends Higher at \$200}
+
+\vspace{1em}
+\textbf{Call Option:}
+\begin{itemize}
+    \item \textbf{End-of-Year Stock Price:} \$200
+    \item \textbf{Outcome:} The call option is ``in the money,'' allowing the option holder to buy shares at \$183.38 (the strike price), significantly below the market price of \$200.
+    \item \textbf{Payoff per Share:}
+    \begin{align*}
+        \text{Payoff} &= \$200 - \$183.38 \\
+                      &= \$16.62
+    \end{align*}
+    \item \textbf{Total Payoff for 100 Shares:}
+    \begin{align*}
+        \text{Total Payoff} &= 16.62 \times 100 \\
+                            &= \$1662
+    \end{align*}
+    \item \textbf{Net Profit:}
+    \begin{align*}
+        \text{Net Profit} &= \$1662 - (\$16.09 \times 100) \\
+                          &= \$1662 - \$1609 \\
+                          &= \$53
+    \end{align*}
+\end{itemize}
+
+\textbf{Put Option:}
+\begin{itemize}
+    \item \textbf{Outcome:} The put option remains ``out of the money'' since the market price is higher than the strike price, which provides no incentive to exercise the option.
+    \item \textbf{Payoff:} \$0 (The option is not exercised).
+    \item \textbf{Net Loss:}
+    \begin{align*}
+        \text{Net Loss} &= \$13.93 \times 100 \\
+                        &= \$1393
+    \end{align*}
+\end{itemize}
+
+\vspace{1em}
+\textbf{Scenario 2: Stock Price Ends Lower at \$160}
+
+\vspace{1em}
+
+\textbf{Call Option:}
+\begin{itemize}
+    \item \textbf{End-of-Year Stock Price:} \$160
+    \item \textbf{Outcome:} The call option is ``out of the money." Exercising the option to buy at \$183.38 when the market price is only \$160 does not make financial sense.
+    \item \textbf{Payoff:} \$0 (The option is not exercised).
+    \item \textbf{Net Loss:} Premium paid, \$16.09 $\times$ 100 = \$1609.
+\end{itemize}
+
+\textbf{Put Option:}
+\begin{itemize}
+    \item \textbf{Outcome:} The put option is ``in the money" as it allows selling shares at \$183.38, above the market price of \$160.
+    \item \textbf{Payoff per Share:}
+    \begin{align*}
+        \text{Payoff per Share} &= \$183.38 - \$160 \\
+                                &= \$23.38
+    \end{align*}
+    \item \textbf{Total Payoff for 100 Shares:}
+    \begin{align*}
+        \text{Total Payoff} &= \$23.38 \times 100 \\
+                            &= \$2338
+    \end{align*}
+    \item \textbf{Net Profit:}
+    \begin{align*}
+        \text{Net Profit} &= \$2338 - (\$13.93 \times 100) \\
+                          &= \$2338 - \$1393 \\
+                          &= \$945
+    \end{align*}
+\end{itemize}
+
+\textbf{After computing the option prices using the Black Scholes method, the calculated values are:}
+\begin{itemize}
+    \item \textbf{Call Option Price:} \$15.95
+    \item \textbf{Put Option Price:} \$14.12.
+\end{itemize}
+
+\section*{Option Pricing Analysis}
+
+\subsection*{Call Option Pricing}
+
+The call option price derived from the \textbf{Monte Carlo simulation} is marginally higher at \$16.09 compared to that calculated using the \textbf{Black-Scholes model} (\$15.95). This slight difference could be attributed to the Monte Carlo method's ability to incorporate a range of possible price trajectories through its stochastic approach. This method is particularly sensitive to scenarios that may not adhere strictly to the log-normal distribution assumed by the Black-Scholes model, potentially accounting for higher price movements that elevate the average payoff of the call option.
+
+\subsection*{Put Option Pricing}
+
+Conversely, the put option price is slightly lower in the Monte Carlo simulation (\$13.93) compared to the Black-Scholes model (\$14.12). This difference could be due to the Black-Scholes assumption of a continuous, log-normally distributed model of stock price movements, which might overestimate the likelihood or impact of significant downward movements (tail risk). The Monte Carlo simulation, by generating discrete paths and capturing a broader spectrum of downward movements, may provide a more tempered estimation of extreme market conditions.
+
+\subsection*{Market Comparison}
+
+After running both \textbf{Monte Carlo and Black Scholes methods}, we decided to check the prices of options using the \textbf{Yahoo Finance} web page; even though options in exactly one year were not available, we got the prices for March 2025, which were around \$20 and \$19 US dollars per one share for call and put options, respectively. These numbers are a bit higher than what we got, which reflects the higher implied volatility in the market. Real-world expectations and uncertainties that theoretical models may not fully capture demonstrate the importance of continuously adjusting and calibrating models in response to current market conditions in order to align theoretical valuations with practical trading environments.
+
+\newpage
+\section{Control variates technique}
+
+
+\subsection*{}
+In this implementation, we integrate the control variates technique into a Monte Carlo simulation for option pricing. The control variates method utilizes a model with a known analytical solution --- in this case, the Black-Scholes model --- to reduce the estimation variance of the simulation. This approach not only enhances the reliability of the simulation results but also makes them more robust against the randomness inherent in financial models, which is particularly useful in financial analytics where precision is crucial for decision-making.
+
+
+\subsection*{Simulation of Payoffs}
+We simulate the paths of the underlying asset price using geometric Brownian motion. The simulation involves computing the payoffs for European call and put options based on these paths. This step establishes the basis for our empirical estimation, which will be adjusted using the control variates method.
+
+\subsection*{Use of Black-Scholes as a Control}
+The theoretical prices of the options are calculated using the Black-Scholes formula. These prices serve as our control variate, providing a benchmark against which the simulation's accuracy is measured.
+
+\subsection*{Variance Reduction}
+The final step in our process involves adjusting the empirical mean payoffs from the simulation. We add the difference between the theoretical Black-Scholes price and the empirical mean payoff to each simulated payoff. This adjustment not only corrects any bias introduced by the randomness in the simulation paths but also stabilizes the estimates, yielding more accurate and reliable option prices with reduced variance.
+
+\subsection*{Conclusion}
+The integration of control variates with Monte Carlo simulations for option pricing significantly enhances the accuracy and reliability of the results. By reducing the variance associated with random simulation paths, we provide more precise estimations that are crucial for effective decision making in financial analytics.
+
+
+
+\newpage
+\section{References}
+\begin{enumerate}
+    \item Metropolis, N., \& Ulam, S. (1987). \textit{The Beginning of the Monte Carlo Method}. Los Alamos Science.
+    \item Boyle, P. P. (1977). Options: A Monte Carlo Approach. \textit{Journal of Financial Economics}, 4(3), 323-338.
+    \item Merton, R. C. (1973). Theory of Rational Option Pricing. \textit{The Bell Journal of Economics and Management Science}.
+    \item Black, F., \& Scholes, M. (1973). The Pricing of Options and Corporate Liabilities. \textit{Journal of Political Economy}, 81(3), 637-654.
+    \item Glasserman, P. (2003). \textit{Monte Carlo Methods in Financial Engineering}. Springer Science \& Business Media, Volume 53.
+\end{enumerate}
+
+
+\end{document}
+
